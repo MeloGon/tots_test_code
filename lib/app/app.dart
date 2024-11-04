@@ -1,16 +1,19 @@
+import 'package:tost_test_code/features/login/ui/views/login_view.dart';
 import 'package:tost_test_code/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:tost_test_code/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tost_test_code/ui/views/home/home_view.dart';
 import 'package:tost_test_code/ui/views/startup/startup_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+//import 'package:tost_test_code/ui/views/login/login_view.dart';
 // @stacked-import
 
 @StackedApp(
   routes: [
     MaterialRoute(page: HomeView),
     MaterialRoute(page: StartupView),
-    // @stacked-route
+    MaterialRoute(page: LoginView),
+// @stacked-route
   ],
   dependencies: [
     LazySingleton(classType: BottomSheetService),
