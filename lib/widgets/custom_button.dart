@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton(
       {super.key,
       this.text,
-      this.color = const Color(0xff82bc02),
+      this.color = Colors.black,
       this.marginV,
       this.marginH,
       this.enabled = true,
@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
       this.icon,
       this.width,
       this.height = 53,
-      this.fontSize = 20});
+      this.fontSize = 16});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CustomButton extends StatelessWidget {
             backgroundColor: color,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(15),
+                Radius.circular(55),
               ),
             ),
           ),

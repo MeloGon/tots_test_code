@@ -9,8 +9,9 @@ import 'package:flutter/material.dart' as _i5;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i6;
-import 'package:tost_test_code/features/login/ui/views/login_view.dart' as _i4;
-import 'package:tost_test_code/ui/views/home/home_view.dart' as _i2;
+import 'package:tost_test_code/features/home/views/home_view.dart' as _i2;
+import 'package:tost_test_code/features/login/presentation/views/login_view.dart'
+    as _i4;
 import 'package:tost_test_code/ui/views/startup/startup_view.dart' as _i3;
 
 class Routes {
