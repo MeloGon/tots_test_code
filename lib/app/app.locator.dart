@@ -10,6 +10,7 @@ import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
+import 'package:tost_test_code/features/home/domain/usecases/add_client_usecase.dart';
 
 import '../config/network/network_client.dart';
 import '../features/home/data/datasource/home_datasource.dart';
@@ -48,4 +49,5 @@ Future<void> setupLocator({
 
   locator.registerLazySingleton(() => LoginUseCase(locator()));
   locator.registerLazySingleton(() => GetClientsUsecase(locator()));
+  locator.registerLazySingleton(() => AddClientUsecase(locator()));
 }

@@ -27,4 +27,19 @@ class ClientModel extends ClientEntity {
       userId: (json['user_id'] as num).toInt(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'firstname': firstname,
+      'lastname': lastname,
+      'email': email,
+      'address': address,
+      'photo': photo,
+      'caption': caption,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'user_id': userId,
+    };
+  }
 }

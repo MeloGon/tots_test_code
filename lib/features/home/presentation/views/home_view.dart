@@ -59,7 +59,7 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                       10.w,
                       CustomButton(
                         height: 50,
-                        onPressed: () {},
+                        onPressed: viewModel.showAddClientForm,
                         text: ksAddnew,
                       )
                     ],

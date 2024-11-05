@@ -16,7 +16,7 @@ class NetworkUtil {
     }
 
     if (token != null) {
-      _dio.options.headers.addAll({"Authorization": "$token"});
+      _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     } else {
       _dio.options.headers.remove("Authorization");
     }
