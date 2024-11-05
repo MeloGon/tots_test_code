@@ -54,14 +54,14 @@ class NetworkUtil {
       throw new Exception(['NOT_INTERNET_EXCEPTION']);
 
     if (token != null)
-      _dio.options.headers.addAll({"Authorization": "Token $token"});
+      _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     else
       _dio.options.headers.remove("Authorization");
 
     _dio.options.contentType = Headers.jsonContentType;
 
-    // logger.d("URL GET: " + AppHelpers.networkUrl + url);
-    // logger.d("Headers: " + _dio.options.headers.toString());
+    logger.d("URL GET: " + url);
+    logger.d("Headers: " + _dio.options.headers.toString());
 
     return _dio
         .get(url,
@@ -71,7 +71,7 @@ class NetworkUtil {
                 responseType: ResponseType.json // or ResponseType.JSON
                 ))
         .then((Response response) {
-      //logger.d("Response [" + response.statusCode.toString() + "]: $response");
+      logger.d("Response [" + response.statusCode.toString() + "]: $response");
 
       return response.data;
     }).catchError((error) => print("EL ERROR $error"));

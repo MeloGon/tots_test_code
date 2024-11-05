@@ -1,5 +1,9 @@
 import 'package:tost_test_code/config/network/network_client.dart';
-import 'package:tost_test_code/features/home/views/home_view.dart';
+import 'package:tost_test_code/features/home/data/datasource/home_datasource.dart';
+import 'package:tost_test_code/features/home/data/repository/home_repository_impl.dart';
+import 'package:tost_test_code/features/home/domain/repository/home_repository.dart';
+import 'package:tost_test_code/features/home/domain/usecases/get_clients_usecase.dart';
+import 'package:tost_test_code/features/home/presentation/views/home_view.dart';
 import 'package:tost_test_code/features/login/data/datasource/auth_datasource.dart';
 import 'package:tost_test_code/features/login/data/repository/auth_respository_impl.dart';
 import 'package:tost_test_code/features/login/domain/repository/auth_repository.dart';
@@ -34,7 +38,16 @@ import 'package:stacked_services/stacked_services.dart';
       classType: AuthRespositoryImpl,
       asType: AuthRepository,
     ),
-    LazySingleton(classType: LoginUseCase)
+    LazySingleton(
+      classType: HomeDataSourceImpl,
+      asType: HomeDataSource,
+    ),
+    LazySingleton(
+      classType: HomeRepositoryImpl,
+      asType: HomeRepository,
+    ),
+    LazySingleton(classType: LoginUseCase),
+    LazySingleton(classType: GetClientsUsecase)
 
     // @stacked-service
   ],

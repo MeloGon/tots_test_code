@@ -12,6 +12,10 @@ import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../config/network/network_client.dart';
+import '../features/home/data/datasource/home_datasource.dart';
+import '../features/home/data/repository/home_repository_impl.dart';
+import '../features/home/domain/repository/home_repository.dart';
+import '../features/home/domain/usecases/get_clients_usecase.dart';
 import '../features/login/data/datasource/auth_datasource.dart';
 import '../features/login/data/repository/auth_respository_impl.dart';
 import '../features/login/domain/repository/auth_repository.dart';
@@ -36,5 +40,12 @@ Future<void> setupLocator({
       () => AuthDataSourceImpl(locator()));
   locator.registerLazySingleton<AuthRepository>(
       () => AuthRespositoryImpl(authDataSource: locator()));
+
+  locator.registerLazySingleton<HomeDataSource>(
+      () => HomeDataSourceImpl(locator()));
+  locator.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(homeDataSource: locator()));
+
   locator.registerLazySingleton(() => LoginUseCase(locator()));
+  locator.registerLazySingleton(() => GetClientsUsecase(locator()));
 }

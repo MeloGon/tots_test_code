@@ -5,3 +5,6 @@ const String ksLogin = 'LOG IN';
 const String ksMail = 'Mail';
 const String ksMinimal = 'minimal';
 const String ksPassword = 'Password';
+const String ksClients = 'CLIENTS';
+const String ksAddnew = 'ADD NEW';
+const String ksSearch = 'Search ...';

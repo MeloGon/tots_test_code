@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tost_test_code/app/app.dialogs.dart';
 import 'package:tost_test_code/app/app.locator.dart';
 import 'package:tost_test_code/app/app.router.dart';
@@ -16,12 +17,16 @@ class LoginViewModel extends BaseViewModel {
   }
 
   Future login(LoginReqParams loginReq) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //goToHomeView();
     await _loginUseCase
         .call(
-          LoginReqParams(mail: loginReq.mail, password: loginReq.password),
-        )
-        .then((_) => goToHomeView())
-        .catchError((error) {
+      LoginReqParams(mail: loginReq.mail, password: loginReq.password),
+    )
+        .then((response) {
+      prefs.setString('token', response.accessToken);
+      goToHomeView();
+    }).catchError((error) {
       _showDialogSomethingHappened();
     });
   }
