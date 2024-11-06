@@ -14,4 +14,8 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<ClientEntity> addClient(ClientModel client) async =>
       await homeDataSource.addClient(client);
+
+  @override
+  Future deleteClient(int clientId) async =>
+      await homeDataSource.deleteClient(clientId);
 }

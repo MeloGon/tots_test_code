@@ -15,3 +15,6 @@ const String ksSave = 'Save';
 const String ksFirstname = 'First name*';
 const String ksLastname = 'Last name*';
 const String ksEmailAddress = 'Email address*';
+const String ksClientDeleted = 'Client deleted';
+const String ksClientDeletedSuccesful =
+    'The client has been successfully deleted';
