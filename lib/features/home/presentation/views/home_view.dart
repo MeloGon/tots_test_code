@@ -4,6 +4,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:tost_test_code/core/extensions/space_extensions.dart';
 import 'package:tost_test_code/features/home/presentation/view_model/home_viewmodel.dart';
 import 'package:tost_test_code/features/home/presentation/views/home_view.form.dart';
+import 'package:tost_test_code/features/home/presentation/widgets/popup_widget.dart';
 import 'package:tost_test_code/ui/common/app_strings.dart';
 import 'package:tost_test_code/widgets/background_widget.dart';
 import 'package:tost_test_code/widgets/custom_button.dart';
@@ -81,14 +82,7 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                               '${client?.firstname ?? ''} ${client?.lastname ?? ''}'),
                           subtitle: Text(client?.email ?? ''),
                           leading: const CircleAvatar(),
-                          trailing: IconButton(
-                              onPressed: () {
-                                // if (client?.id != null) {
-                                //   viewModel.deleteClient(client!.id!);
-                                // }
-                                viewModel.getClient(client!.id!);
-                              },
-                              icon: const Icon(Icons.more_vert_rounded)),
+                          trailing: PopupWidget(client!.id!),
                         ),
                       );
                     },

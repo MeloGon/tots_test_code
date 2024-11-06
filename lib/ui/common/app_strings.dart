@@ -18,3 +18,5 @@ const String ksEmailAddress = 'Email address*';
 const String ksClientDeleted = 'Client deleted';
 const String ksClientDeletedSuccesful =
     'The client has been successfully deleted';
+const String ksEliminate = 'Eliminate';
+const String ksEdit = 'Edit';

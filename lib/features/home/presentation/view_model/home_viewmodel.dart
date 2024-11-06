@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tost_test_code/app/app.dialogs.dart';
 import 'package:tost_test_code/app/app.locator.dart';
+import 'package:tost_test_code/core/enums/popup_action_enum.dart';
 import 'package:tost_test_code/features/home/data/models/client_model.dart';
 import 'package:tost_test_code/features/home/domain/entities/client_entity.dart';
 import 'package:tost_test_code/features/home/domain/usecases/add_client_usecase.dart';
@@ -26,6 +27,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
   List<ClientEntity>? _clientsList = [];
   List<ClientEntity>? get clientsList => _clientsList;
   int get clientsListLength => _clientsList?.length ?? 0;
+  PopupActionEnum? clientAction;
 
   FutureOr loadClients() async {
     await _getClientsUseCase.call().then((response) {
@@ -39,7 +41,6 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
     var response = await _dialogService.showCustomDialog(
       variant: DialogType.addClient,
       title: ksAddNewClient,
-      description: 'Give stacked stars on Github',
     );
     if (response?.confirmed ?? false) {
       loadClients();
@@ -74,12 +75,23 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
       emailInputController.text = response.email ?? '';
       var responseDialog = await _dialogService.showCustomDialog(
         variant: DialogType.addClient,
-        title: ksAddNewClient,
-        description: 'Give stacked stars on Github',
+        title: ksEditClient,
       );
       // if (responseDialog?.confirmed ?? false) {
       //   loadClients();
       // }
     }).catchError((error) {});
+  }
+
+  void onActionSelected(PopupActionEnum action, int clientId) {
+    switch (action) {
+      case PopupActionEnum.eliminate:
+        deleteClient(clientId);
+        break;
+      case PopupActionEnum.edit:
+        getClient(clientId);
+        break;
+    }
+    notifyListeners();
   }
 }
