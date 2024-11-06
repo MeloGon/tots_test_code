@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked_annotations.dart';
+import 'package:tost_test_code/core/enums/popup_action_enum.dart';
 import 'package:tost_test_code/core/extensions/space_extensions.dart';
 import 'package:tost_test_code/features/home/data/models/client_model.dart';
 import 'package:tost_test_code/features/home/presentation/view_model/home_viewmodel.dart';
@@ -84,13 +85,19 @@ class AddClientDialog extends StackedView<HomeViewModel> with $AddClientDialog {
                 Expanded(
                   child: CustomButton(
                     onPressed: () {
-                      viewModel.addClient(
-                        ClientModel(
-                          firstname: firstnameInputController.text,
-                          lastname: lastnameInputController.text,
-                          email: emailInputController.text,
-                        ),
-                      );
+                      //Todo : Ajustar esta parte para que el boton trabaje para edit y add
+                      if (viewModel.clientAction == PopupActionEnum.edit) {
+                        //viewModel.updateClientData(client)
+                      } else {
+                        viewModel.addClient(
+                          ClientModel(
+                            firstname: firstnameInputController.text,
+                            lastname: lastnameInputController.text,
+                            email: emailInputController.text,
+                          ),
+                        );
+                      }
+
                       completer.call(DialogResponse(confirmed: false));
                     },
                     text: ksSave,

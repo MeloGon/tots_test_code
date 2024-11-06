@@ -22,4 +22,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future deleteClient(int clientId) async =>
       await homeDataSource.deleteClient(clientId);
+
+  @override
+  Future updateClient(ClientModel client) async =>
+      await homeDataSource.updateClient(
+        client,
+      );
 }

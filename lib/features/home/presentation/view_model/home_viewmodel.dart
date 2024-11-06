@@ -11,6 +11,7 @@ import 'package:tost_test_code/features/home/domain/usecases/add_client_usecase.
 import 'package:tost_test_code/features/home/domain/usecases/delete_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/get_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/get_clients_usecase.dart';
+import 'package:tost_test_code/features/home/domain/usecases/update_client_usecase.dart';
 import 'package:tost_test_code/ui/common/app_strings.dart';
 import 'package:tost_test_code/ui/dialogs/add_client_alert/add_client_dialog.form.dart';
 
@@ -19,6 +20,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
   final _getClientUseCase = locator<GetClientUsecase>();
   final _addClientUseCase = locator<AddClientUsecase>();
   final _deleteClientUseCase = locator<DeleteClientUsecase>();
+  final _updateClientUseCase = locator<UpdateClientUsecase>();
 
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
@@ -77,9 +79,24 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
         variant: DialogType.addClient,
         title: ksEditClient,
       );
-      // if (responseDialog?.confirmed ?? false) {
-      //   loadClients();
-      // }
+      if (responseDialog?.confirmed ?? false) {
+        updateClientData(ClientModel(
+          id: response.id,
+          lastname: response.firstname,
+          email: response.email,
+        ));
+      }
+    }).catchError((error) {});
+  }
+
+  FutureOr updateClientData(ClientModel client) async {
+    await _updateClientUseCase.call(client).then((response) async {
+      _dialogService.showCustomDialog(
+        variant: DialogType.infoAlert,
+        title: 'Cliente actualizado',
+        description: ksClientDeletedSuccesful,
+      );
+      clearInputs();
     }).catchError((error) {});
   }
 
@@ -93,5 +110,11 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
         break;
     }
     notifyListeners();
+  }
+
+  void clearInputs() {
+    firstnameInputController.clear();
+    lastnameInputController.clear();
+    emailInputController.clear();
   }
 }

@@ -8,6 +8,7 @@ abstract class HomeDataSource {
   Future<ClientEntity> addClient(ClientModel client);
   Future<ClientEntity> getClient(int clientId);
   Future deleteClient(int clientId);
+  Future updateClient(ClientModel client);
 }
 
 class HomeDataSourceImpl extends HomeDataSource {
@@ -76,6 +77,25 @@ class HomeDataSourceImpl extends HomeDataSource {
             'https://myback-execute-dot-my-back-401316.uc.r.appspot.com/6-tots-test/clients/$clientId',
         token: prefs.getString('token'),
       );
+      return response['success'];
+    } catch (e) {
+      throw Exception('Something was wrong ... $e');
+    }
+  }
+
+  @override
+  Future updateClient(ClientModel client) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final response = await dio.post(
+          url:
+              'https://myback-execute-dot-my-back-401316.uc.r.appspot.com/6-tots-test/clients/${client.id}',
+          token: prefs.getString('token'),
+          formData: {
+            'firstname': client.firstname,
+            'lastname': client.lastname,
+            'email': client.email,
+          });
       return response['success'];
     } catch (e) {
       throw Exception('Something was wrong ... $e');
