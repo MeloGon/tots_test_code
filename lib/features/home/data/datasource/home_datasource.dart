@@ -1,11 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tost_test_code/config/network/network_client.dart';
+import 'package:tost_test_code/features/home/data/models/client_added_resp.dart';
 import 'package:tost_test_code/features/home/data/models/client_model.dart';
 import 'package:tost_test_code/features/home/domain/entities/client_entity.dart';
 
 abstract class HomeDataSource {
   Future<List<ClientEntity>> getClients();
-  Future<ClientEntity> addClient(ClientModel client);
+  Future<ClientAddedResp> addClient(ClientModel client);
   Future<ClientEntity> getClient(int clientId);
   Future deleteClient(int clientId);
   Future updateClient(ClientModel client);
@@ -32,7 +33,7 @@ class HomeDataSourceImpl extends HomeDataSource {
   }
 
   @override
-  Future<ClientModel> addClient(ClientModel client) async {
+  Future<ClientAddedResp> addClient(ClientModel client) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final response = await dio.post(
@@ -47,7 +48,7 @@ class HomeDataSourceImpl extends HomeDataSource {
             'photo': client.photo,
             'caption': client.caption,
           });
-      return ClientModel.fromJson(response);
+      return ClientAddedResp.fromJson(response);
     } catch (e) {
       throw Exception('Something was wrong ... $e');
     }
@@ -96,7 +97,6 @@ class HomeDataSourceImpl extends HomeDataSource {
             'lastname': client.lastname,
             'email': client.email,
           });
-
     } catch (e) {
       throw Exception('Something was wrong ... $e');
     }

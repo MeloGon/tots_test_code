@@ -16,7 +16,7 @@ import 'package:tost_test_code/features/home/presentation/views/home_view.form.d
 import 'package:tost_test_code/ui/common/app_strings.dart';
 import 'package:tost_test_code/ui/dialogs/add_client_alert/add_client_dialog.form.dart';
 
-class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
+class HomeViewModel extends BaseViewModel with $AddClientDialog, $HomeView {
   final _getClientsUseCase = locator<GetClientsUsecase>();
   final _getClientUseCase = locator<GetClientUsecase>();
   final _addClientUseCase = locator<AddClientUsecase>();
@@ -48,7 +48,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
     _clientsList?.forEach((client) {
       final firstName = client.firstname?.toLowerCase() ?? '';
       final lastName = client.lastname?.toLowerCase() ?? '';
-      if (firstName.contains(text) ||lastName.contains(text)) {
+      if (firstName.contains(text) || lastName.contains(text)) {
         _searchResult.add(client);
       }
     });
@@ -56,7 +56,6 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
   }
 
   Future<void> loadClients() async {
-
     await _getClientsUseCase.call().then((response) {
       _clientsList?.clear();
       _clientsList?.addAll(response);
@@ -118,6 +117,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
           description: ksClientDeletedSuccessful,
         );
         searchInputController.clear();
+        onSearchTextChanged('');
         loadClients();
       }
     }).catchError((error) {});
@@ -141,7 +141,6 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
         title: ksClientUpdated,
         description: ksClientUpdatedSuccessful,
       );
-
     }).catchError((error) {});
   }
 

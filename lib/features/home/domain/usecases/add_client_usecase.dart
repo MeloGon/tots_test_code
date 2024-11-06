@@ -1,5 +1,5 @@
+import 'package:tost_test_code/features/home/data/models/client_added_resp.dart';
 import 'package:tost_test_code/features/home/data/models/client_model.dart';
-import 'package:tost_test_code/features/home/domain/entities/client_entity.dart';
 import 'package:tost_test_code/features/home/domain/repository/home_repository.dart';
 
 class AddClientUsecase {
@@ -7,7 +7,7 @@ class AddClientUsecase {
 
   AddClientUsecase(this.repository);
 
-  Future<ClientEntity> call(ClientModel client) async {
+  Future<ClientAddedResp> call(ClientModel client) async {
     return await repository.addClient(client);
   }
 }
