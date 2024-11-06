@@ -12,10 +12,11 @@ import 'package:tost_test_code/features/home/domain/usecases/delete_client_useca
 import 'package:tost_test_code/features/home/domain/usecases/get_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/get_clients_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/update_client_usecase.dart';
+import 'package:tost_test_code/features/home/presentation/views/home_view.form.dart';
 import 'package:tost_test_code/ui/common/app_strings.dart';
 import 'package:tost_test_code/ui/dialogs/add_client_alert/add_client_dialog.form.dart';
 
-class HomeViewModel extends BaseViewModel with $AddClientDialog {
+class HomeViewModel extends BaseViewModel with $AddClientDialog , $HomeView {
   final _getClientsUseCase = locator<GetClientsUsecase>();
   final _getClientUseCase = locator<GetClientUsecase>();
   final _addClientUseCase = locator<AddClientUsecase>();
@@ -27,15 +28,35 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
 
   // ignore: prefer_final_fields
   List<ClientEntity>? _clientsList = [];
-
   List<ClientEntity>? get clientsList => _clientsList;
 
   int get clientsListLength => _clientsList?.length ?? 0;
-  PopupActionEnum? _clientAction;
 
+  PopupActionEnum? _clientAction;
   PopupActionEnum? get clientAction => _clientAction;
 
+  // ignore: prefer_final_fields
+  List<ClientEntity> _searchResult = [];
+  List<ClientEntity> get searchResult => _searchResult;
+
+  onSearchTextChanged(String text) async {
+    _searchResult.clear();
+    if (text.isEmpty) {
+      rebuildUi();
+      return;
+    }
+    _clientsList?.forEach((client) {
+      final firstName = client.firstname?.toLowerCase() ?? '';
+      final lastName = client.lastname?.toLowerCase() ?? '';
+      if (firstName.contains(text) ||lastName.contains(text)) {
+        _searchResult.add(client);
+      }
+    });
+    rebuildUi();
+  }
+
   Future<void> loadClients() async {
+
     await _getClientsUseCase.call().then((response) {
       _clientsList?.clear();
       _clientsList?.addAll(response);
@@ -43,7 +64,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
     }).catchError((error) {});
   }
 
-  FutureOr showAddClientForm({ClientEntity? clientForEdit}) async {
+  FutureOr showAddOrEditClientForm({ClientEntity? clientForEdit}) async {
     if (_clientAction == PopupActionEnum.edit) {
       var response = await _dialogService.showCustomDialog(
         variant: DialogType.addClient,
@@ -96,6 +117,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
           title: ksClientDeletedSuccessful,
           description: ksClientDeletedSuccessful,
         );
+        searchInputController.clear();
         loadClients();
       }
     }).catchError((error) {});
@@ -108,7 +130,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
       firstnameInputController.text = response.firstname ?? '';
       lastnameInputController.text = response.lastname ?? '';
       emailInputController.text = response.email ?? '';
-      showAddClientForm(clientForEdit: response);
+      showAddOrEditClientForm(clientForEdit: response);
     }).catchError((error) {});
   }
 
