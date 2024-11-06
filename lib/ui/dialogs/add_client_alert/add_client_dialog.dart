@@ -76,7 +76,7 @@ class AddClientDialog extends StackedView<HomeViewModel> with $AddClientDialog {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: viewModel.goBack,
                     child: const Text(ksCancel),
                   ),
                 ),

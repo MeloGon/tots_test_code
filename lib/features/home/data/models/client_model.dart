@@ -24,7 +24,7 @@ class ClientModel extends ClientEntity {
       caption: json['caption'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      userId: (json['user_id'] as num).toInt(),
+      userId: ((json['user_id']) ?? 0 as num).toInt(),
     );
   }
 

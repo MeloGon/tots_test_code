@@ -4,6 +4,7 @@ import 'package:tost_test_code/features/home/data/repository/home_repository_imp
 import 'package:tost_test_code/features/home/domain/repository/home_repository.dart';
 import 'package:tost_test_code/features/home/domain/usecases/add_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/delete_client_usecase.dart';
+import 'package:tost_test_code/features/home/domain/usecases/get_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/get_clients_usecase.dart';
 import 'package:tost_test_code/features/home/presentation/views/home_view.dart';
 import 'package:tost_test_code/features/login/data/datasource/auth_datasource.dart';
@@ -53,6 +54,7 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: GetClientsUsecase),
     LazySingleton(classType: AddClientUsecase),
     LazySingleton(classType: DeleteClientUsecase),
+    LazySingleton(classType: GetClientUsecase),
 
     // @stacked-service
   ],

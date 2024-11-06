@@ -6,5 +6,7 @@ abstract class HomeRepository {
 
   Future<ClientEntity> addClient(ClientModel client);
 
+  Future<ClientEntity> getClient(int clientId);
+
   Future deleteClient(int clientId);
 }

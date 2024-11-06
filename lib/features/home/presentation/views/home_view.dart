@@ -83,9 +83,10 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                           leading: const CircleAvatar(),
                           trailing: IconButton(
                               onPressed: () {
-                                if (client?.id != null) {
-                                  viewModel.deleteClient(client!.id!);
-                                }
+                                // if (client?.id != null) {
+                                //   viewModel.deleteClient(client!.id!);
+                                // }
+                                viewModel.getClient(client!.id!);
                               },
                               icon: const Icon(Icons.more_vert_rounded)),
                         ),
