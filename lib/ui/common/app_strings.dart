@@ -16,7 +16,11 @@ const String ksFirstname = 'First name*';
 const String ksLastname = 'Last name*';
 const String ksEmailAddress = 'Email address*';
 const String ksClientDeleted = 'Client deleted';
-const String ksClientDeletedSuccesful =
+const String ksClientDeletedSuccessful =
     'The client has been successfully deleted';
 const String ksEliminate = 'Eliminate';
 const String ksEdit = 'Edit';
+const String ksClientAdded = 'Client added';
+const String ksClientAddedSuccessful = 'The clien has been successfully added';
+const String ksClientUpdated = 'Client data updated';
+const String ksClientUpdatedSuccessful = 'The client\'s data has been successfully updated';

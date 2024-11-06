@@ -85,20 +85,7 @@ class AddClientDialog extends StackedView<HomeViewModel> with $AddClientDialog {
                 Expanded(
                   child: CustomButton(
                     onPressed: () {
-                      //Todo : Ajustar esta parte para que el boton trabaje para edit y add
-                      if (viewModel.clientAction == PopupActionEnum.edit) {
-                        //viewModel.updateClientData(client)
-                      } else {
-                        viewModel.addClient(
-                          ClientModel(
-                            firstname: firstnameInputController.text,
-                            lastname: lastnameInputController.text,
-                            email: emailInputController.text,
-                          ),
-                        );
-                      }
-
-                      completer.call(DialogResponse(confirmed: false));
+                      completer.call(DialogResponse(confirmed: true));
                     },
                     text: ksSave,
                   ),

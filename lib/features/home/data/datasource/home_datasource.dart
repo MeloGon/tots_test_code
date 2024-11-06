@@ -96,7 +96,7 @@ class HomeDataSourceImpl extends HomeDataSource {
             'lastname': client.lastname,
             'email': client.email,
           });
-      return response['success'];
+
     } catch (e) {
       throw Exception('Something was wrong ... $e');
     }

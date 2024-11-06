@@ -28,67 +28,70 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    ksMinimal,
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  20.h,
-                  const Align(
-                      alignment: Alignment.centerLeft, child: Text(ksClients)),
-                  20.h,
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(
-                        child: TextFormField(
-                          controller: searchInputController,
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              hintText: ksSearch,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50)))),
-                        ),
+            child: RefreshIndicator(
+              onRefresh:viewModel.loadClients,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      ksMinimal,
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w900,
                       ),
-                      10.w,
-                      CustomButton(
-                        height: 50,
-                        onPressed: viewModel.showAddClientForm,
-                        text: ksAddnew,
-                      )
-                    ],
-                  ),
-                  20.h,
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 0, bottom: 30),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final client = viewModel.clientsList?[index];
-                      return Card.outlined(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: ListTile(
-                          tileColor: Colors.white,
-                          contentPadding:
-                              const EdgeInsets.only(left: 16, right: 0),
-                          title: Text(
-                              '${client?.firstname ?? ''} ${client?.lastname ?? ''}'),
-                          subtitle: Text(client?.email ?? ''),
-                          leading: const CircleAvatar(),
-                          trailing: PopupWidget(client!.id!),
+                    ),
+                    20.h,
+                    const Align(
+                        alignment: Alignment.centerLeft, child: Text(ksClients)),
+                    20.h,
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Flexible(
+                          child: TextFormField(
+                            controller: searchInputController,
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.search),
+                                hintText: ksSearch,
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)))),
+                          ),
                         ),
-                      );
-                    },
-                    itemCount: viewModel.clientsListLength,
-                  )
-                ],
+                        10.w,
+                        CustomButton(
+                          height: 50,
+                          onPressed: viewModel.showAddClientForm,
+                          text: ksAddnew,
+                        )
+                      ],
+                    ),
+                    20.h,
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.only(top: 0, bottom: 30),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final client = viewModel.clientsList?[index];
+                        return Card.outlined(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: ListTile(
+                            tileColor: Colors.white,
+                            contentPadding:
+                                const EdgeInsets.only(left: 16, right: 0),
+                            title: Text(
+                                '${client?.firstname ?? ''} ${client?.lastname ?? ''}'),
+                            subtitle: Text(client?.email ?? ''),
+                            leading: const CircleAvatar(),
+                            trailing: PopupWidget(client!.id!),
+                          ),
+                        );
+                      },
+                      itemCount: viewModel.clientsListLength,
+                    )
+                  ],
+                ),
               ),
             ),
           )

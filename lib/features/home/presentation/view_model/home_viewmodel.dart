@@ -27,11 +27,15 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
 
   // ignore: prefer_final_fields
   List<ClientEntity>? _clientsList = [];
-  List<ClientEntity>? get clientsList => _clientsList;
-  int get clientsListLength => _clientsList?.length ?? 0;
-  PopupActionEnum? clientAction;
 
-  FutureOr loadClients() async {
+  List<ClientEntity>? get clientsList => _clientsList;
+
+  int get clientsListLength => _clientsList?.length ?? 0;
+  PopupActionEnum? _clientAction;
+
+  PopupActionEnum? get clientAction => _clientAction;
+
+  Future<void> loadClients() async {
     await _getClientsUseCase.call().then((response) {
       _clientsList?.clear();
       _clientsList?.addAll(response);
@@ -39,18 +43,47 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
     }).catchError((error) {});
   }
 
-  FutureOr showAddClientForm() async {
-    var response = await _dialogService.showCustomDialog(
-      variant: DialogType.addClient,
-      title: ksAddNewClient,
-    );
-    if (response?.confirmed ?? false) {
-      loadClients();
+  FutureOr showAddClientForm({ClientEntity? clientForEdit}) async {
+    if (_clientAction == PopupActionEnum.edit) {
+      var response = await _dialogService.showCustomDialog(
+        variant: DialogType.addClient,
+        title: ksEditClient,
+      );
+      if (response?.confirmed ?? false) {
+        updateClientData(ClientModel(
+            id: clientForEdit?.id,
+            firstname: firstnameInputController.text,
+            lastname: lastnameInputController.text,
+            email: emailInputController.text));
+        loadClients();
+      }
+      _clientAction = null;
+    } else {
+      clearInputs();
+      var response = await _dialogService.showCustomDialog(
+        variant: DialogType.addClient,
+        title: ksAddNewClient,
+      );
+      if (response?.confirmed ?? false) {
+        addClient(
+          ClientModel(
+            firstname: firstnameInputController.text,
+            lastname: lastnameInputController.text,
+            email: emailInputController.text,
+          ),
+        );
+        loadClients();
+      }
     }
   }
 
   FutureOr addClient(ClientModel client) async {
     await _addClientUseCase.call(client).then((response) {
+      _dialogService.showCustomDialog(
+        variant: DialogType.infoAlert,
+        title: ksClientAdded,
+        description: '$ksClientAddedSuccessful  id : $response',
+      );
       loadClients();
     }).catchError((error) {});
   }
@@ -60,8 +93,8 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
       if (response) {
         _dialogService.showCustomDialog(
           variant: DialogType.infoAlert,
-          title: ksClientDeletedSuccesful,
-          description: ksClientDeletedSuccesful,
+          title: ksClientDeletedSuccessful,
+          description: ksClientDeletedSuccessful,
         );
         loadClients();
       }
@@ -75,17 +108,7 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
       firstnameInputController.text = response.firstname ?? '';
       lastnameInputController.text = response.lastname ?? '';
       emailInputController.text = response.email ?? '';
-      var responseDialog = await _dialogService.showCustomDialog(
-        variant: DialogType.addClient,
-        title: ksEditClient,
-      );
-      if (responseDialog?.confirmed ?? false) {
-        updateClientData(ClientModel(
-          id: response.id,
-          lastname: response.firstname,
-          email: response.email,
-        ));
-      }
+      showAddClientForm(clientForEdit: response);
     }).catchError((error) {});
   }
 
@@ -93,19 +116,21 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog {
     await _updateClientUseCase.call(client).then((response) async {
       _dialogService.showCustomDialog(
         variant: DialogType.infoAlert,
-        title: 'Cliente actualizado',
-        description: ksClientDeletedSuccesful,
+        title: ksClientUpdated,
+        description: ksClientUpdatedSuccessful,
       );
-      clearInputs();
+
     }).catchError((error) {});
   }
 
   void onActionSelected(PopupActionEnum action, int clientId) {
     switch (action) {
       case PopupActionEnum.eliminate:
+        _clientAction = PopupActionEnum.eliminate;
         deleteClient(clientId);
         break;
       case PopupActionEnum.edit:
+        _clientAction = PopupActionEnum.edit;
         getClient(clientId);
         break;
     }
