@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:tost_test_code/core/enums/popup_action_enum.dart';
@@ -59,23 +61,21 @@ class AddClientDialog extends StackedView<HomeViewModel> with $AddClientDialog {
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                                 border:
-                                    Border.all(color: Colors.red, width: 2)),
-                            child: /*_.fotoLocal == null*/ true
+                                    Border.all(color: Colors.grey, width: 2)),
+                            child: viewModel.photoClient == null
                                 ? const Center(
                                     child: Icon(
                                       Icons.add,
                                       size: 50,
                                     ),
                                   )
-                                : SizedBox
-                                    .shrink() /*ClipRRect(
+                                : ClipRRect(
                                     borderRadius: BorderRadius.circular(100.0),
                                     child: Image.file(
-                                      File(_.fotoLocal!.path),
+                                      File(viewModel.photoClient!.path),
                                       fit: BoxFit.cover,
                                     ),
-                                  )),*/
-                            ),
+                                  )),
                       ),
                       verticalSpaceTiny,
                       TextFormField(

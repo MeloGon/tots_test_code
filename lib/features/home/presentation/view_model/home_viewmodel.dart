@@ -150,7 +150,10 @@ class HomeViewModel extends ReactiveViewModel with $AddClientDialog, $HomeView {
     }).catchError((error) {});
   }
 
-  FutureOr goBack() => _navigationService.back();
+  FutureOr goBack() {
+    _homeService.clearData();
+    _navigationService.back();
+  }
 
   FutureOr getClient(int clientId) async {
     await _getClientUseCase.call(clientId).then((response) async {

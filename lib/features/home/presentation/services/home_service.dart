@@ -13,4 +13,8 @@ class HomeService with ListenableServiceMixin {
         maxHeight: 768);
     notifyListeners();
   }
+
+  void clearData() {
+    _photoClient = null;
+  }
 }
