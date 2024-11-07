@@ -50,6 +50,33 @@ class AddClientDialog extends StackedView<HomeViewModel> with $AddClientDialog {
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
                       ),
+                      GestureDetector(
+                        onTap: viewModel.selectPhoto,
+                        child: Container(
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.red, width: 2)),
+                            child: /*_.fotoLocal == null*/ true
+                                ? const Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 50,
+                                    ),
+                                  )
+                                : SizedBox
+                                    .shrink() /*ClipRRect(
+                                    borderRadius: BorderRadius.circular(100.0),
+                                    child: Image.file(
+                                      File(_.fotoLocal!.path),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )),*/
+                            ),
+                      ),
                       verticalSpaceTiny,
                       TextFormField(
                         controller: firstnameInputController,

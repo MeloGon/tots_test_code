@@ -88,7 +88,14 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                                   title: Text(
                                       '${client.firstname ?? ''} ${client.lastname ?? ''}'),
                                   subtitle: Text(client.email ?? ''),
-                                  leading: const CircleAvatar(),
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child:
+                                            Image.network(client.photo ?? '')),
+                                  ),
                                   trailing: PopupWidget(client.id!),
                                 ),
                               );
@@ -109,7 +116,16 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                                   title: Text(
                                       '${client?.firstname ?? ''} ${client?.lastname ?? ''}'),
                                   subtitle: Text(client?.email ?? ''),
-                                  leading: const CircleAvatar(),
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        child: Image.network(
+                                          client?.photo ?? '',
+                                          fit: BoxFit.fill,
+                                        )),
+                                  ),
                                   trailing: PopupWidget(client!.id!),
                                 ),
                               );

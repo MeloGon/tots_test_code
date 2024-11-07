@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tost_test_code/app/app.dialogs.dart';
@@ -12,11 +14,12 @@ import 'package:tost_test_code/features/home/domain/usecases/delete_client_useca
 import 'package:tost_test_code/features/home/domain/usecases/get_client_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/get_clients_usecase.dart';
 import 'package:tost_test_code/features/home/domain/usecases/update_client_usecase.dart';
+import 'package:tost_test_code/features/home/presentation/services/home_service.dart';
 import 'package:tost_test_code/features/home/presentation/views/home_view.form.dart';
 import 'package:tost_test_code/ui/common/app_strings.dart';
 import 'package:tost_test_code/ui/dialogs/add_client_alert/add_client_dialog.form.dart';
 
-class HomeViewModel extends BaseViewModel with $AddClientDialog, $HomeView {
+class HomeViewModel extends ReactiveViewModel with $AddClientDialog, $HomeView {
   final _getClientsUseCase = locator<GetClientsUsecase>();
   final _getClientUseCase = locator<GetClientUsecase>();
   final _addClientUseCase = locator<AddClientUsecase>();
@@ -25,19 +28,29 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog, $HomeView {
 
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
+  final _homeService = locator<HomeService>();
 
   // ignore: prefer_final_fields
   List<ClientEntity>? _clientsList = [];
+
   List<ClientEntity>? get clientsList => _clientsList;
 
   int get clientsListLength => _clientsList?.length ?? 0;
 
   PopupActionEnum? _clientAction;
+
   PopupActionEnum? get clientAction => _clientAction;
 
   // ignore: prefer_final_fields
   List<ClientEntity> _searchResult = [];
+
   List<ClientEntity> get searchResult => _searchResult;
+
+  XFile? get photoClient => _homeService.photoClient;
+
+  final cloudinary = CloudinaryPublic('en-el-blanco', 'o2pugvho', cache: false);
+
+  List<ListenableServiceMixin> get listenableServices => [_homeService];
 
   onSearchTextChanged(String text) async {
     _searchResult.clear();
@@ -84,16 +97,30 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog, $HomeView {
         variant: DialogType.addClient,
         title: ksAddNewClient,
       );
+      var photoUrl = await uploadPhoto();
       if (response?.confirmed ?? false) {
         addClient(
           ClientModel(
             firstname: firstnameInputController.text,
             lastname: lastnameInputController.text,
             email: emailInputController.text,
+            photo: photoUrl,
           ),
         );
         loadClients();
       }
+    }
+  }
+
+  Future<String> uploadPhoto() async {
+    try {
+      CloudinaryResponse? response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(photoClient!.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      return response.secureUrl;
+    } on CloudinaryException catch (e) {
+      throw Exception(e);
     }
   }
 
@@ -162,5 +189,9 @@ class HomeViewModel extends BaseViewModel with $AddClientDialog, $HomeView {
     firstnameInputController.clear();
     lastnameInputController.clear();
     emailInputController.clear();
+  }
+
+  void selectPhoto() async {
+    _homeService.selectPhoto();
   }
 }
